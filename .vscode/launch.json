@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Pretrain",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/train_pretrain.py",
+      "console": "integratedTerminal",
+      "args": [
+        "--device", "cuda:0",
+        "--use_wandb",
+        "--wandb_project", "MiniMind-Pretrain",
+        "--dim", "512",
+        "--n_layers", "8",
+        "--max_seq_len", "512",
+        "--data_path", "./dataset/pretrain_hq.jsonl"
+      ]
+    }
+  ]
+}
