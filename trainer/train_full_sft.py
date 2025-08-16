@@ -83,7 +83,7 @@ def train_epoch(epoch, wandb):
         if (step + 1) % args.save_interval == 0 and (not ddp or dist.get_rank() == 0):
             model.eval()
             moe_path = '_moe' if lm_config.use_moe else ''
-            ckp = f'{args.save_dir}/full_sft_{lm_config.hidden_size}{moe_path}.pth'
+            ckp = f'{args.save_dir}/full_sft_{lm_config.hidden_size}_{lm_config.num_hidden_layers}{moe_path}.pth'
             if isinstance(model, torch.nn.parallel.DistributedDataParallel):
                 state_dict = model.module.state_dict()
             else:
@@ -97,7 +97,7 @@ def init_model(lm_config):
     tokenizer = AutoTokenizer.from_pretrained('../model')
     model = MiniMindForCausalLM(lm_config)
     moe_path = '_moe' if lm_config.use_moe else ''
-    ckp = f'{args.save_dir}/pretrain_{lm_config.hidden_size}{moe_path}.pth'
+    ckp = f'{args.save_dir}/pretrain_{lm_config.hidden_size}_{lm_config.num_hidden_layers}{moe_path}.pth'
     state_dict = torch.load(ckp, map_location=args.device)
     model.load_state_dict(state_dict, strict=False)
 
